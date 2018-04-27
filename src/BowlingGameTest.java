@@ -1,37 +1,52 @@
-import org.junit.Test;
 
+import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
 
 
 public class BowlingGameTest {
+    private BowlingGame g = new BowlingGame();
 
-    BowlingGame game = new BowlingGame();
+
+    void rollMany(int numberRolls, int numberPins) {
+        for (int i = 0; i < numberRolls; i++) {
+            g.roll(numberPins);
+        }
+    }
 
     @Test
     public void queDesGoutieresDonne0Points() {
         rollMany(20, 0);
-        assertEquals(0, game.score());
+        assertEquals(0, g.score());
     }
 
     @Test
-    public void uneSeuleQuille(){
-        game.roll(1);
+    public void uneSeuleQuille() {
+        g.roll(1);
         rollMany(19, 0);
-        assertEquals(1, game.score());
+        assertEquals(1, g.score());
     }
 
     @Test
-    public void bonusDuSpare(){
-        game.roll(8);
-        game.roll(2);
-        game.roll(1);
+    public void bonusDuSpare() {
+        g.roll(8);
+        g.roll(2);
+        g.roll(1);
         rollMany(17, 0);
-        assertEquals(12, game.score());
+        assertEquals(12, g.score());
     }
 
-    private void rollMany(int numberRolls, int numberPins) {
-        for (int i = 0; i < numberRolls; i++) {
-            game.roll(numberPins);
-        }
+    @Test
+    public void unSeulStrike() {
+        g.roll(10);
+        g.roll(3);
+        g.roll(4);
+        rollMany(16, 0);
+        assertEquals(24, g.score());
+    }
+
+    @Test
+    public void unJeuParfait() {
+        rollMany(12, 10);
+        assertEquals(300, g.score());
     }
 }
